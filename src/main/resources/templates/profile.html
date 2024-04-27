@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alegeri Prezidentiale</title>
+    <link rel="stylesheet" href="/css/index.css"/>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/home">Alegeri Prezidentiale</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+                 aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Meniu</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" aria-current="page" href="/user/profile">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                                </svg>
+                                <span class="ms-1">Profilul meu</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="/logout">Deconectare</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Profile card -->
+                <div class="profile-card card shadow border-0 p-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 th:text="${loggedUser.firstName} + ' ' + ${loggedUser.lastName}" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                            </svg>
+                        </div>
+                        <h6 th:text="'Username: ' + ${loggedUser.username}" />
+                        <h6 th:text="'Roluri: ' + ${loggedUser.roles.toLowerCase()}" class="mb-5" />
+                        <div class="description-content d-flex justify-content-between align-items-center">
+                            <h6 class="mb-1">Descriere:</h6>
+                            <button class="btn btn-primary btn-sm" id="editDescriptionBtn">Editeaza</button>
+                        </div>
+                        <p class="mb-0" th:text="${loggedUser.description}" />
+                        <div class="edit-form d-none mt-3">
+                            <form action="/edit_description" method="post">
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="descriere" name="description" id="editDescriptionTextarea" style="height: 100px"></textarea>
+                                    <label for="editDescriptionTextarea">Descriere noua</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm mt-2" id="submitEditBtn">Salveaza</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <!-- Info card -->
+                <div class="card shadow mt-4 mt-lg-0">
+                    <div class="card-header">
+                        <h3 class="text-center my-2">Cum sa candidez si eu ?</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <h5 class="mb-3">Vrei sa ajungi si tu pe lista candidatilor si sa poti fi votat de ceilalti ?</h5>
+                        <p>Tot ce trebuie sa faci este sa obtii rolul de candidat dand click pe '<span class="text-primary">Depune candidatura</span>'.</p>
+                        <h5 class="text-danger mb-2 bt-3">Atentie!</h5>
+                        <p class="mb-4">Ca votant, ai dreptul la <span class="text-danger">un singur</span> vot. De asemenea, daca iti depui candidatura, ceilalti utilizatori te vor putea vota si ei, doar o signura data.</p>
+                        <form action="/apply_candidature" method="post">
+                            <button type="submit" class="btn btn-primary btn-sm rounded-pill w-100">Depune candidatura</button>
+                        </form>
+                        <a class="btn btn-outline-primary rounded-pill w-100 mt-3" href="/candidate/candidate_profile">Pagina candidat</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<script type="text/javascript">
+    const editDescriptionBtn = document.getElementById("editDescriptionBtn");
+    const submitEditBtn = document.getElementById("submitEditBtn");
+    const form = document.querySelector(".edit-form");
+
+    const buttons = [submitEditBtn, editDescriptionBtn];
+    let clicked = false;
+
+    window.onload = handleVisibilityListeners;
+
+    function handleVisibilityListeners() {
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (!clicked) {
+                    form.classList.replace("d-none", "d-block");
+                    editDescriptionBtn.classList.replace("btn-primary", "btn-danger");
+                    editDescriptionBtn.textContent = "Renunta";
+                } else {
+                    form.classList.replace("d-block", "d-none");
+                    editDescriptionBtn.classList.replace("btn-danger", "btn-primary");
+                    editDescriptionBtn.textContent = "Editeaza";
+                }
+                clicked = !clicked;
+            });
+        });
+    }
+</script>
+</body>
+</html>
